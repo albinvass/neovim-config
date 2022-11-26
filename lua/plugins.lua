@@ -1,7 +1,6 @@
 return require('packer').startup(function()
     use 'wbthomason/packer.nvim'
     use 'tpope/vim-surround'
-    use 'nvim-lua/completion-nvim'
     use 'morhetz/gruvbox'
     use 'jreybert/vimagit'
     use 'tpope/vim-fugitive'
@@ -12,6 +11,7 @@ return require('packer').startup(function()
     use 'neovim/nvim-lspconfig'
     use 'nvim-telescope/telescope.nvim'
     use 'hashivim/vim-terraform'
+    use 'LnL7/vim-nix'
 
     use 'honza/vim-snippets'
     use 'hrsh7th/cmp-nvim-lsp'
@@ -19,8 +19,11 @@ return require('packer').startup(function()
     use 'hrsh7th/cmp-cmdline'
     use 'hrsh7th/cmp-path'
     use 'hrsh7th/nvim-cmp'
-    use 'hrsh7th/cmp-vsnip'
-    use 'hrsh7th/vim-vsnip'
+
+    use {'L3MON4D3/LuaSnip', run = "make install_jsregexp"}
+    use 'saadparwaiz1/cmp_luasnip'
+
+    use 'nvim-treesitter/nvim-treesitter'
 
     use {'tzachar/cmp-tabnine', run='./install.sh', requires = 'hrsh7th/nvim-cmp'}
 
@@ -35,7 +38,5 @@ return require('packer').startup(function()
         },
         tag = 'nightly' -- optional, updated every week. (see issue #1193)
     }
-    require("nvim-tree").setup{
-        adaptive_size = true
-    }
+    require("nvim-tree").setup{}
 end)

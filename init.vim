@@ -31,6 +31,7 @@ nmap <C-e> :Telescope live_grep<CR>
 
 
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+autocmd FileType nix setlocal ts=2 sts=2 sw=2 expandtab
 au BufNewFile,BufRead Jenkinsfile setf groovy
 
 " Set completeopt to have a better completion experience
@@ -39,11 +40,9 @@ set completeopt=menuone,noinsert,noselect
 " Avoid showing message extra message when using completion
 set shortmess+=c
 
-let g:nvim_tree_auto_open = 1
 nnoremap <C-n> :NvimTreeToggle<CR>
 
 lua << EOF
     require'plugins'
-    require'lspconfig'
     require'completion'
 EOF

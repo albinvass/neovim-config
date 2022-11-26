@@ -3,7 +3,7 @@ local cmp = require'cmp'
 cmp.setup({
     snippet = {
         expand = function(args)
-            vim.fn["vsnip#anonymous"](args.body)
+            require('luasnip').lsp_expand(args.body)
         end,
     },
     mapping = cmp.mapping.preset.insert({
@@ -33,9 +33,41 @@ cmp.setup({
     }),
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
-        { name = 'vsnip' }, -- For vsnip users.
+        { name = 'luasnip' }, -- For vsnip users.
         { name = 'cmp_tabnine' }
     }, {
         { name = 'buffer' },
     })
 })
+
+local nvim_lsp = require('lspconfig')
+
+local servers = {
+    sumneko_lua={},
+    rnix={},
+    pylsp={},
+    bashls={},
+    dockerls={},
+    clangd={},
+    terraformls={_on_attach=function()
+            vim.api.nvim_create_autocmd({"BufWritePre"}, {
+                pattern = {"*.tf", "*.tfvars"},
+                callback = vim.lsp.buf.formatting_sync
+            })
+        end
+    },
+}
+
+for lsp, conf in pairs(servers) do
+    conf['on_attach'] = function()
+        if conf['_on_attach'] ~= nil then
+            conf._on_attach()
+        end
+    end
+
+    conf['flags'] = {
+        debounce_text_changes = 150,
+    }
+
+    nvim_lsp[lsp].setup(conf)
+end
